@@ -1,0 +1,8 @@
+dependencies:
+  my_dac_component:
+    git: https://github.com/amjs456/my_dac_component.git
+    path: .
+
+  my_adc_component:
+    git: https://github.com/amjs456/my_adc_component.git
+    path: .
