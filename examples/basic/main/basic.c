@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-uint32_t print_func(uint32_t data){
+int32_t print_func(int32_t data){
     static int count;
     if(count%4800==0){
         printf("%ld\n", data);

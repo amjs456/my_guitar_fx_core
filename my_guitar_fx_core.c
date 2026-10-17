@@ -86,12 +86,12 @@ esp_err_t my_guitar_fx_core_init(const FxFuncPtr fx_func_array[], size_t fx_func
 static void mediation_task(void *args){
     size_t r_bytes;
 
-    uint32_t data[DATA_BUF_SIZE];
+    int32_t data[DATA_BUF_SIZE];
     size_t head = 0;
 
     while(1){
         int32_t *samples = (int32_t *)xRingbufferReceive(buf_handles.adc_buf_handle, &r_bytes, portMAX_DELAY);
-        size_t n = r_bytes / sizeof(uint32_t);
+        size_t n = r_bytes / sizeof(int32_t);
 
         for(size_t i = 0; i + 1 < n; i+=2){
             int32_t rin = samples[i + 1] >> 8;
