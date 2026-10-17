@@ -101,16 +101,15 @@ static void mediation_task(void *args){
             }
             
 
-            if(head<DATA_BUF_SIZE){
-                data[head] = rin << 8;
-                head++;
-            } else {
+            if(head>=DATA_BUF_SIZE){
                 UBaseType_t res = xRingbufferSend(buf_handles.dac_buf_handle, data, sizeof(data), portMAX_DELAY);
                 if(res != pdTRUE){
                     ESP_LOGW(TAG, "Failed to send data");
                 }
                 head = 0;
             }
+            data[head] = rin << 8;
+            head++;
         }
         vRingbufferReturnItem(buf_handles.adc_buf_handle, samples);
     }
