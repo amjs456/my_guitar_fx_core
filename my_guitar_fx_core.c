@@ -94,10 +94,10 @@ static void mediation_task(void *args){
         size_t n = r_bytes / sizeof(int32_t);
 
         for(size_t i = 0; i + 1 < n; i+=2){
-            int32_t rin = samples[i + 1] >> 8;
+            int32_t lin = samples[i] >> 8;
 
             for(size_t j = 0; j < g_fx_func_array_length; j++){
-                rin = g_fx_func_array[j](rin);
+                lin = g_fx_func_array[j](lin);
             }
             
 
@@ -108,7 +108,7 @@ static void mediation_task(void *args){
                 }
                 head = 0;
             }
-            data[head] = rin << 8;
+            data[head] = lin << 8;
             head++;
         }
         vRingbufferReturnItem(buf_handles.adc_buf_handle, samples);
