@@ -5,10 +5,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
-int32_t print_func(int32_t data){
+float print_func(float data){
     static int count;
     if(count%4800==0){
-        printf("%ld\n", data);
+        printf("%f\n", data);
     }
     count++;
     return data;
