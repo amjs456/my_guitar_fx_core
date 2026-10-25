@@ -32,31 +32,31 @@ i2s_chan_handle_t tx_channel = NULL;
 
 my_dac_write_task_args_t my_dac_write_task_args;
 
-static FxFuncPtr g_fx_func_array[MAX_FX_COUNT] = {0};
-static size_t g_fx_func_array_length = 0;
+static fx_t g_fx_array[MAX_FX_COUNT] = {0};
+static size_t g_fx_array_length = 0;
 
-esp_err_t my_guitar_fx_core_init(const FxFuncPtr fx_func_array[], size_t fx_func_array_length){
+esp_err_t my_guitar_fx_core_init(const fx_t fx_array[], size_t fx_array_length){
     esp_err_t err;
 
-    if(fx_func_array_length > MAX_FX_COUNT){
+    if(fx_array_length > MAX_FX_COUNT){
         ESP_LOGE(TAG, "Too many FX functions");
         return ESP_ERR_INVALID_ARG;
     }
 
-    if(fx_func_array_length > 0 && fx_func_array == NULL){
+    if(fx_array_length > 0 && fx_array == NULL){
         ESP_LOGE(TAG, "No FX functions");
         return ESP_ERR_INVALID_ARG;
     }
 
-    for(size_t i = 0; i < fx_func_array_length; i++){
-        if(fx_func_array[i] == NULL){
+    for(size_t i = 0; i < fx_array_length; i++){
+        if(fx_array[i].fx_func_ptr == NULL){
             ESP_LOGE(TAG, "Fx function is NULL");
             return ESP_ERR_INVALID_ARG;
         }
-        g_fx_func_array[i] = fx_func_array[i];
+        g_fx_array[i] = fx_array[i];
     }
 
-    g_fx_func_array_length = fx_func_array_length;
+    g_fx_array_length = fx_array_length;
 
     err = my_adc_init();
     if(err != ESP_OK){
@@ -96,8 +96,8 @@ static void mediation_task(void *args){
         for(size_t i = 0; i + 1 < n; i+=2){
             float lin = (float)(samples[i] >> 8) / 8388608.0f;
 
-            for(size_t j = 0; j < g_fx_func_array_length; j++){
-                lin = g_fx_func_array[j](lin);
+            for(size_t j = 0; j < g_fx_array_length; j++){
+                lin = g_fx_array[j].fx_func_ptr(lin, g_fx_array[j].args);
             }
             
 

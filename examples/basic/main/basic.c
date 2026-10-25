@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-float print_func(float data){
+float print_func(float data, void *args){
     static int count;
     if(count%4800==0){
         printf("%f\n", data);
@@ -16,12 +16,12 @@ float print_func(float data){
 
 void app_main(void)
 {
-    FxFuncPtr const fx_func_array[] = {
-        print_func,
+    fx_t fx_array[] = {
+        {print_func, NULL}
     };
 
-    size_t fx_func_array_length = sizeof(fx_func_array) / sizeof(fx_func_array[0]);
+    size_t fx_array_length = sizeof(fx_array) / sizeof(fx_array[0]);
 
-    ESP_ERROR_CHECK(my_guitar_fx_core_init(fx_func_array, fx_func_array_length));
+    ESP_ERROR_CHECK(my_guitar_fx_core_init(fx_array, fx_array_length));
     ESP_ERROR_CHECK(start_tasks());
 }
