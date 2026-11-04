@@ -94,10 +94,10 @@ static void mediation_task(void *args){
         size_t n = r_bytes / sizeof(int32_t);
 
         for(size_t i = 0; i + 1 < n; i+=2){
-            float lin = (float)(samples[i] >> 8) / 8388608.0f;
+            float normalized = (float)(samples[i] >> 8) / 8388608.0f;
 
             for(size_t j = 0; j < g_fx_array_length; j++){
-                lin = g_fx_array[j].fx_func_ptr(lin, g_fx_array[j].args);
+                normalized = g_fx_array[j].fx_func_ptr(normalized, g_fx_array[j].args);
             }
             
 
@@ -108,7 +108,12 @@ static void mediation_task(void *args){
                 }
                 head = 0;
             }
-            data[head] = ((int32_t)(lin * 8388608.0f)) << 8;
+            
+            float denormalized = normalized * 8388608.0f;
+            if(denormalized > 8388607.0f) denormalized = 8388607.0f;
+            if(denormalized < -8388608.0f) denormalized = -8388608.0f;
+            int32_t denormalized_int32 = (int32_t)((uint32_t)denormalized << 8);
+            data[head] = denormalized_int32;
             head++;
         }
         vRingbufferReturnItem(buf_handles.adc_buf_handle, samples);
