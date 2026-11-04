@@ -70,7 +70,7 @@ esp_err_t my_guitar_fx_core_init(const fx_t fx_array[], size_t fx_array_length){
         return err;
     }
 
-    RingbufHandle_t adc_buf_handle = xRingbufferCreate(1024, RINGBUF_TYPE_NOSPLIT);
+    RingbufHandle_t adc_buf_handle = xRingbufferCreate(4096, RINGBUF_TYPE_NOSPLIT);
     RingbufHandle_t dac_buf_handle = xRingbufferCreate(1024, RINGBUF_TYPE_NOSPLIT);
 
     buf_handles.adc_buf_handle = adc_buf_handle;
