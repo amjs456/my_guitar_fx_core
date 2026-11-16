@@ -9,6 +9,8 @@
 #include "my_guitar_fx_effects.h"
 #include "tuner.h"
 #include "tuner_ui.h"
+#include "delay.h"
+#include "delay_ui.h"
 
 float print_func(float data, void *args){
     static int count;
@@ -24,13 +26,20 @@ static tuner_arg_t tuner_arg = {
     .reference_frequency_hz = 440.0f
 };
 
+static delay_args_t delay_args = {
+    .delay_time = 800,
+    95,
+    50
+};
+
 void app_main(void)
 {
     QueueHandle_t queue = xQueueCreate(1, sizeof(TuningResult));
     tuner_arg.queue_handle = queue;
 
     fx_t fx_array[] = {
-        {tuner, tuner_ui_create, &tuner_arg}
+        {tuner, tuner_ui_create, &tuner_arg},
+        {delay, delay_ui_create, &delay_args}
     };
 
     size_t fx_array_length = sizeof(fx_array) / sizeof(fx_array[0]);
