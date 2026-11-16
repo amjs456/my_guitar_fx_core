@@ -6,3 +6,10 @@ dependencies:
   my_adc_component:
     git: https://github.com/amjs456/my_adc_component.git
     path: .
+
+  my_guitar_fx_ui:
+    path: ./examples/basic/components/my_guitar_fx_ui
+
+  lvgl/lvgl: 
+    version: ^9.*
+    require: public

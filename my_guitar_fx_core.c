@@ -9,6 +9,7 @@
 
 #include "my_adc_component.h"
 #include "my_dac_component.h"
+#include "my_guitar_fx_ui.h"
 #include "portmacro.h"
 #include <stddef.h>
 #include <stdint.h>
@@ -79,6 +80,11 @@ esp_err_t my_guitar_fx_core_init(const fx_t fx_array[], size_t fx_array_length){
     my_dac_write_task_args.buf_handle = dac_buf_handle;
     my_dac_write_task_args.tx_channel = tx_channel;
 
+    err = my_guitar_fx_display_init(fx_array, fx_array_length);
+    if(err != ESP_OK){
+        ESP_LOGE(TAG, "my_guitar_fx_display_init failed: %s", esp_err_to_name(err));
+        return err;
+    }
 
     return ESP_OK;
 }

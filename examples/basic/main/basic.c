@@ -1,9 +1,14 @@
 #include "esp_err.h"
+#include "freertos/idf_additions.h"
 #include "my_guitar_fx_core.h"
 
 #include "esp_check.h"
 #include <stddef.h>
 #include <stdint.h>
+
+#include "my_guitar_fx_effects.h"
+#include "tuner.h"
+#include "tuner_ui.h"
 
 float print_func(float data, void *args){
     static int count;
@@ -14,10 +19,18 @@ float print_func(float data, void *args){
     return data;
 }
 
+static tuner_arg_t tuner_arg = {
+    .tuning = "Standard",
+    .reference_frequency_hz = 440.0f
+};
+
 void app_main(void)
 {
+    QueueHandle_t queue = xQueueCreate(1, sizeof(TuningResult));
+    tuner_arg.queue_handle = queue;
+
     fx_t fx_array[] = {
-        {print_func, NULL}
+        {tuner, tuner_ui_create, &tuner_arg}
     };
 
     size_t fx_array_length = sizeof(fx_array) / sizeof(fx_array[0]);
