@@ -3,4 +3,8 @@ menu "MY GUITAR FX Settings"
     int "MAX FX COUNT"
     default 8
 
+    config MAX_FX_PARAM_COUNT
+    int "MAX FX PARAM COUNT"
+    default 16
+
 endmenu
