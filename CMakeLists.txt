@@ -1,3 +1,3 @@
 idf_component_register(SRCS "my_guitar_fx_core.c"
                     INCLUDE_DIRS "include"
-                    REQUIRES esp_psram esp_ringbuf lvgl)
+                    REQUIRES esp_psram esp_ringbuf lvgl my_guitar_fx_ui)
