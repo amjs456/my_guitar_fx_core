@@ -9,6 +9,7 @@ typedef float (*FxFuncPtr)(float,void *);
 typedef lv_obj_t *(*FxUiFuncPtr)(lv_obj_t *, void *);
 
 typedef struct {
+    const char *fx_name;
     FxFuncPtr fx_func_ptr;
     FxUiFuncPtr fx_ui_func_ptr;
     void *args;
