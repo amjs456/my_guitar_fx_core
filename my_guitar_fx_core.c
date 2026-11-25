@@ -1,4 +1,5 @@
 #include "my_guitar_fx_core.h"
+#include "types.h"
 
 #include "driver/i2s_types.h"
 #include "esp_err.h"
